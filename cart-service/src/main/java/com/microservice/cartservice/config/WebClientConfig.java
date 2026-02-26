@@ -9,8 +9,10 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
+import reactor.util.retry.Retry;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -37,7 +39,26 @@ public class WebClientConfig {
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .exchangeStrategies(strategies)
                 .filter(logRequest()) // Add request logging
-                .filter(logResponse()); // Add response logging
+                .filter(logResponse()) // Add response logging
+                .filter(retryFilter()); // Add retry filter
+    }
+    
+    // Filter to perform retry
+    private ExchangeFilterFunction retryFilter() {
+        return (request, next) -> next.exchange(request)
+                .retryWhen(Retry.backoff(5, Duration.ofMillis(500)) // Retry 5 times, delay 0.5s
+                        .filter(throwable -> {
+                            // Retry only for network or server error
+                            if (throwable instanceof WebClientResponseException) {
+                                WebClientResponseException ex = (WebClientResponseException) throwable;
+                                return ex.getStatusCode().is5xxServerError() || 
+                                       ex.getStatusCode().value() == 503;
+                            }
+                            return true; // Retry for all other errors
+                        })
+                        .doBeforeRetry(retrySignal -> 
+                            System.out.println("Retry attempt " + retrySignal.totalRetries() + 
+                                             " for " + request.url())));
     }
     
     // Log request filter

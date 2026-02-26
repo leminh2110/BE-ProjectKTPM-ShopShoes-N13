@@ -1,0 +1,21 @@
+- Link tài liệu
+https://drive.google.com/drive/folders/1rT27b5KE8OfH9RjXQEajmetpTwiL0MlC
+
+- Link trello
+https://trello.com/b/CVaGOAG5/phan-cong-kttkpm
+
+- Link figma
+https://www.figma.com/design/lReBIYrnkXFqMn2UdImNr2/Home?node-id=0-1&p=f&t=EXnTiNAvGCzqKGCV-0
+
+- Link github Be
+https://github.com/cusimall/BE-ProjectKTPM-ShopShoes-N13.git
+- Link github Fe
+https://github.com/cusimall/FE-ProjectKTPM-ShopShoes-N13.git
+
+- Link gitlab Be
+https://gitlab.com/shopshoes/shop-shoes-backend.git
+- Link gitlab Fe
+https://gitlab.com/shopshoes/shop-shoes-frontend.git
+
+- Link Jenkins
+http://localhost:5050/

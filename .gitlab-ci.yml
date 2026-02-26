@@ -1,0 +1,85 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  JAVA_VERSION: "21"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+# Cache dependencies between jobs
+cache:
+  paths:
+    - .m2/repository
+
+# Build Backend
+build_backend:
+  stage: build
+  image: maven:3.9.6-eclipse-temurin-21
+  script:
+    - cd eureka-server && mvn clean package -DskipTests
+    - cd ../api-gateway && mvn clean package -DskipTests
+    - cd ../authentication-service && mvn clean package -DskipTests
+    - cd ../product-service && mvn clean package -DskipTests
+    - cd ../cart-service && mvn clean package -DskipTests
+    - cd ../payment-service && mvn clean package -DskipTests
+    - cd ../invoice-service && mvn clean package -DskipTests
+    - cd ../emailsender-service && mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - eureka-server/target/*.jar
+      - api-gateway/target/*.jar
+      - authentication-service/target/*.jar
+      - product-service/target/*.jar
+      - cart-service/target/*.jar
+      - payment-service/target/*.jar
+      - invoice-service/target/*.jar
+      - emailsender-service/target/*.jar
+    expire_in: 1 week
+  only:
+    - main
+    - develop
+
+# Test Backend
+test_backend:
+  stage: test
+  image: maven:3.9.6-eclipse-temurin-21
+  script:
+    - cd eureka-server && mvn test || true
+    - cd ../api-gateway && mvn test || true
+    - cd ../authentication-service && mvn test || true
+    - cd ../product-service && mvn test || true
+    - cd ../cart-service && mvn test || true
+    - cd ../payment-service && mvn test || true
+    - cd ../invoice-service && mvn test || true
+    - cd ../emailsender-service && mvn test || true
+  dependencies:
+    - build_backend
+  only:
+    - main
+    - develop
+
+# Deploy Development
+deploy_dev:
+  stage: deploy
+  script:
+    - echo "Deploying backend to development..."
+    # Thêm lệnh deploy cho BE ở đây
+  environment:
+    name: development
+    url: http://localhost:8080
+  only:
+    - develop
+
+# Deploy Production
+deploy_prod:
+  stage: deploy
+  script:
+    - echo "Deploying backend to production..."
+    # Thêm lệnh deploy cho BE ở đây
+  environment:
+    name: production
+    url: http://localhost:8080
+  only:
+    - main
+  when: manual # Yêu cầu xác nhận thủ công trước khi deploy 

@@ -8,6 +8,8 @@
     <file url="file://$PROJECT_DIR$/eureka-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/invoice-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/is216-java-sneaker-master/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rabbit-service/src/main/java" charset="UTF-8" />
   </component>
 </project>

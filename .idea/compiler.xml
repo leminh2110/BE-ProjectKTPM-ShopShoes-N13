@@ -7,25 +7,28 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="cart-service" />
-        <module name="backend-is216" />
-        <module name="invoice-service" />
         <module name="api-gateway" />
         <module name="emailsender-service" />
         <module name="product-service" />
+        <module name="payment-service" />
         <module name="eureka-server" />
+        <module name="invoice-service" />
       </profile>
-      <profile name="Annotation profile for authentication-service" enabled="true">
+      <profile name="Annotation profile for cart-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
         </processorPath>
+        <module name="cart-service" />
         <module name="authentication-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="backend-is216" target="17" />
+      <module name="rabbit-service" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -36,7 +39,9 @@
       <module name="emailsender-service" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="invoice-service" options="-parameters" />
+      <module name="payment-service" options="-parameters" />
       <module name="product-service" options="-parameters" />
+      <module name="rabbit-service" options="-parameters" />
     </option>
   </component>
 </project>
